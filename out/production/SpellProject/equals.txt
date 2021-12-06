@@ -1,0 +1,46 @@
+    @Override
+    public boolean equals(Object a) {
+        if (a == null) {
+            return false;
+        }
+
+        if (a == this) {
+            return true;
+        }
+
+        if (a.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Trie that = (Trie) a;
+
+        if (that.wordCount != this.wordCount || that.nodeCount != this.nodeCount) {
+            return false;
+        }
+
+        if (equalsHelper(that.root, this.root)) {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    private boolean equalsHelper(INode a, INode b) {
+        if (a.getValue() != b.getValue()) {
+            return false;
+        }
+        boolean isMatch = true;
+        INode [] aboiz = a.getChildren();
+        INode [] bboiz = b.getChildren();
+        for (int i = 0; i < 27; i++) {
+            if ((aboiz[i] != null && bboiz[i] == null) || (aboiz[i] == null && bboiz[i] != null)){
+                return false;
+            }
+            else if (aboiz[i] != null && bboiz[i] != null){
+                isMatch = equalsHelper(aboiz[i], bboiz[i]);
+            }
+        }
+        return isMatch;
+    }
+}
